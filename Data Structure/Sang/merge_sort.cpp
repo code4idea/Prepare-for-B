@@ -26,7 +26,7 @@ void merge(int *data, int start, int end)
 	while (left <= mid && right <= end)
 	{
 		if (data[left] <= data[right]) tmp_data[k++] = data[left++];
-		else if (data[left] > data[right]) tmp_data[k++] = data[right++];
+		else tmp_data[k++] = data[right++];
 	}
 
 	int tmp = left <= mid ? left : right;
