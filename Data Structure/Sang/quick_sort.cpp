@@ -1,3 +1,8 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <cmath>
+
 void printt(int *data)
 {
 	for (int i = 0; i < 30; i++)
