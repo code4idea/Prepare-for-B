@@ -10,39 +10,39 @@
 #define MAX_STACK 50
 
 typedef struct stack {
-	int top;
+	int topIndex;
 	char data[MAX_STACK];
 
 	void initStack();
 	bool push(char value);
 	char pop();
-	char peak();
+	char top();
 	bool isEmpty();
 
 	bool isFull();
 } Stack;
 
 void Stack::initStack() {
-	top = -1;
+	topIndex = -1;
 }
 
 bool Stack::push(char value) {
-	if (!isFull()) data[++top] = value;
+	if (!isFull()) data[++topIndex] = value;
 	return !isFull();
 }
 
 char Stack::pop() {
-	return isEmpty() ? 0 : data[top--];
+	return isEmpty() ? 0 : data[topIndex--];
 }
 
-char Stack::peak() {
-	return data[top];
+char Stack::top() {
+	return data[topIndex];
 }
 
 bool Stack::isEmpty() {
-	return top == -1 ? true : false;
+	return topIndex == -1 ? true : false;
 }
 
 bool Stack::isFull() {
-	return top+1 == MAX_STACK ? true : false;
+	return topIndex+1 == MAX_STACK ? true : false;
 }
