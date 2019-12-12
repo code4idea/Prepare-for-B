@@ -24,7 +24,7 @@ typedef struct stack
 	void push(int value);
 	int pop();
 	int top();
-	bool isEmpty();
+	bool empty();
 } Stack;
 
 void Stack::initStack() {
