@@ -20,14 +20,14 @@ typedef struct stack
 {
 	Node* topNode;
 
-	void initStack();
+	void init();
 	void push(int value);
 	int pop();
 	int top();
 	bool empty();
 } Stack;
 
-void Stack::initStack() {
+void Stack::init() {
 	topNode = NULL;
 }
 
