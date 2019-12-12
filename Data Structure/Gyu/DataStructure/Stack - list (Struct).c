@@ -4,7 +4,7 @@
 ** - push
 ** - pop
 ** - peak
-** - isEmpty
+** - empty
 */
 
 #include <malloc.h>
@@ -39,7 +39,7 @@ void Stack::push(int value) {
 };
 
 int Stack::pop() {
-	if (isEmpty()) return 0;
+	if (empty()) return 0;
 
 	Node * delNode = topNode;
 	int returnData = topNode->data;
@@ -52,6 +52,6 @@ int Stack::top() {
 	return topNode->data;
 }
 
-bool Stack::isEmpty() {
+bool Stack::empty() {
 	return topNode == NULL ? true : false;
 }
