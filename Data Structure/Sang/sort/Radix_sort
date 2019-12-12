@@ -1,0 +1,167 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <cmath>
+
+using namespace std;
+
+#define MAX 32
+
+template <typename T>
+class queue
+{
+private:
+	T q[MAX];
+	int front;
+	int rear;
+
+public:
+	queue()
+	{
+		this->q[MAX] = { 0, };
+		this->front = MAX - 1;
+		this->rear = MAX - 1;
+	}
+
+	bool isempty()
+	{
+		if (this->front == this->rear) return true;
+		else return false;
+	}
+
+	bool isfull()
+	{
+		if (this->front == (this->rear + 1) % MAX) return true;
+		else return false;
+	}
+
+	void push(T data)
+	{
+		if (this->isfull())
+		{
+			cout << "FULL" << endl;
+			return;
+		}
+		this->rear = (this->rear + 1) % MAX;
+		this->q[this->rear] = data;
+	}
+
+	void pop()
+	{
+		if (isempty())
+		{
+			cout << "EMPTY" << endl;
+			return;
+		}
+		this->front = (this->front + 1) % MAX;
+	}
+
+	T _front()
+	{
+		if (isempty())
+		{
+			cout << "EMPTY" << endl;
+			return -1;
+		}
+		return this->q[(this->front + 1) % MAX];
+	}
+
+	T _back()
+	{
+		if (isempty())
+		{
+			cout << "EMPTY" << endl;
+			return -1;
+		}
+		return this->q[this->rear];
+	}
+
+	int size()
+	{
+		int res = this->front >= this->rear ? this->rear - this->front + MAX : this->rear - this->front;
+		return res;
+	}
+};
+
+void printt(int *data)
+{
+	for (int i = 0; i < 30; i++)
+	{
+		printf("%d ", data[i]);
+	}
+	cout << endl;
+}
+
+void _swap(int *data, int start, int end)
+{
+	int tmp = data[start];
+	data[start] = data[end];
+	data[end] = tmp;
+}
+
+void Radix_sort(int *data, int start, int end)
+{
+	int max_value = 0;
+	for (int i = start; i <= end; i++)
+	{
+		if (data[i] > max_value)
+			max_value = data[i];
+	}
+
+	int Radix = 1;
+	while (1)
+	{
+		if (Radix >= max_value)
+		{
+			break;
+		}
+		Radix *= 10;
+	}
+
+	queue<int> q[11];
+
+	for (int i = 1; i < Radix; i *= 10)
+	{
+		for (int j = start; j <= end; j++)
+		{
+			int rad = (data[j] / i)%10;
+			q[rad].push(data[j]);
+		}
+
+		int index = 0;
+		int _size = 0;
+		for (int k = 0; k < 10; k++)
+		{
+			while (!q[k].isempty())
+			{
+				_size = q[k].size();
+				data[index++] = q[k]._front();
+				q[k].pop();
+			}
+		}
+	}
+
+}
+
+int main(void)
+{
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int data[30];
+
+	srand((unsigned int)time(NULL));
+
+	for (int i = 0; i < 30; i++)
+	{
+		data[i] = rand() % 100;
+	}
+
+	printt(data);
+
+	Radix_sort(data, 0, 29); // 결과 확인
+
+	printt(data);
+	return 0;
+}
