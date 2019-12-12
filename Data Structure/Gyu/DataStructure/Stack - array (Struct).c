@@ -13,7 +13,7 @@ typedef struct stack {
 	int topIndex;
 	char data[MAX_STACK];
 
-	void initStack();
+	void init();
 	bool push(char value);
 	char pop();
 	char top();
@@ -22,7 +22,7 @@ typedef struct stack {
 	bool full();
 } Stack;
 
-void Stack::initStack() {
+void Stack::init() {
 	topIndex = -1;
 }
 
