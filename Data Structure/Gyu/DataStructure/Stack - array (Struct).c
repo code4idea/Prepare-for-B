@@ -1,5 +1,5 @@
 /* 
-** 스택 - 연결리스트 (구조체)
+** 스택 - 배열 (구조체)
 ** ADT
 ** - push
 ** - pop
@@ -10,74 +10,39 @@
 #define MAX_STACK 50
 
 typedef struct stack {
-	char data[50];
 	int top;
+	char data[MAX_STACK];
+
+	void initStack();
+	bool push(char value);
+	char pop();
+	char peak();
+	bool isEmpty();
+
+	bool isFull();
 } Stack;
 
-Stack s;
-
-void initStack() {
-	s.top = 0;
+void Stack::initStack() {
+	top = -1;
 }
 
-bool isEmpty() {
-	if (s.top == 0) return true;
-	else return false;
+bool Stack::push(char value) {
+	if (!isFull()) data[++top] = value;
+	return !isFull();
 }
 
-bool isFull() {
-	if (s.top == MAX_STACK) return true;
-	else return false;
+char Stack::pop() {
+	return isEmpty() ? 0 : data[top--];
 }
 
-bool pushStack(char c) {
-	if (isFull()) {
-		return false;
-	}
-	else {
-		s.data[s.top] = c;
-		s.top++;
-		return true;
-	}
+char Stack::peak() {
+	return data[top];
 }
 
-bool popStack() {
-	if (isEmpty()) {
-		return false;
-	}
-	else {
-		s.top--;
-	}
+bool Stack::isEmpty() {
+	return top == -1 ? true : false;
 }
 
-char isTop() {
-	return s.data[s.top];
-}
-
-int main() {
-	int T;
-	char inputStr[51];
-	cin >> T;
-	for (int tc = 1; tc <= T; tc++) {
-		cin >> inputStr;
-
-		initStack();
-		for (int i = 0; i < 50; i++) {
-			char nowC = inputStr[i];
-			if (nowC == '\0') break;
-			
-			if (!isEmpty()) {
-				if (isTop() == '(' && nowC == ')') popStack();
-				else pushStack(nowC);
-			}
-			else {
-				pushStack(nowC);
-			}
-		}
-
-		if (isEmpty()) cout << "YES\n";
-		else cout << "NO\n";
-	}
-
-	return 0;
+bool Stack::isFull() {
+	return top+1 == MAX_STACK ? true : false;
 }
