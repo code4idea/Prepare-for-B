@@ -1,6 +1,11 @@
-#include <iostream>
-
-using namespace std;
+/* 
+** 스택 - 연결리스트 (구조체)
+** ADT
+** - push
+** - pop
+** - peak
+** - isEmpty
+*/
 
 #define MAX_STACK 50
 
