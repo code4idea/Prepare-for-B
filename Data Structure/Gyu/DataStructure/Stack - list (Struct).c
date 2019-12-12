@@ -18,40 +18,40 @@ typedef struct node
 
 typedef struct stack
 {
-	Node* top;
+	Node* topNode;
 
 	void initStack();
 	void push(int value);
 	int pop();
-	int peak();
+	int top();
 	bool isEmpty();
 } Stack;
 
 void Stack::initStack() {
-	top = NULL;
+	topNode = NULL;
 }
 
 void Stack::push(int value) {
 	Node* newNode = (Node *)malloc(sizeof(Node));
-	newNode->next = top;
+	newNode->next = topNode;
 	newNode->data = value;
-	top = newNode;
+	topNode = newNode;
 };
 
 int Stack::pop() {
 	if (isEmpty()) return 0;
 
-	Node * delNode = top;
-	int returnData = top->data;
-	top = top->next;
+	Node * delNode = topNode;
+	int returnData = topNode->data;
+	topNode = topNode->next;
 	free(delNode);
 	return returnData;
 }
 
-int Stack::peak() {
-	return top->next->data;
+int Stack::top() {
+	return topNode->data;
 }
 
 bool Stack::isEmpty() {
-	return top == NULL ? true : false;
+	return topNode == NULL ? true : false;
 }
