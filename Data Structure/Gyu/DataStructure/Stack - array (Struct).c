@@ -3,8 +3,8 @@
 ** ADT
 ** - push
 ** - pop
-** - peak
-** - isEmpty
+** - top
+** - empty
 */
 
 #define MAX_STACK 50
@@ -17,9 +17,9 @@ typedef struct stack {
 	bool push(char value);
 	char pop();
 	char top();
-	bool isEmpty();
+	bool empty();
 
-	bool isFull();
+	bool full();
 } Stack;
 
 void Stack::initStack() {
@@ -27,22 +27,22 @@ void Stack::initStack() {
 }
 
 bool Stack::push(char value) {
-	if (!isFull()) data[++topIndex] = value;
-	return !isFull();
+	if (!full()) data[++topIndex] = value;
+	return !full();
 }
 
 char Stack::pop() {
-	return isEmpty() ? 0 : data[topIndex--];
+	return empty() ? 0 : data[topIndex--];
 }
 
 char Stack::top() {
 	return data[topIndex];
 }
 
-bool Stack::isEmpty() {
+bool Stack::empty() {
 	return topIndex == -1 ? true : false;
 }
 
-bool Stack::isFull() {
+bool Stack::full() {
 	return topIndex+1 == MAX_STACK ? true : false;
 }
