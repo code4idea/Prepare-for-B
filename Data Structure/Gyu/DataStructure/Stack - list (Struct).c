@@ -42,10 +42,10 @@ int Stack::pop() {
 	if (empty()) return 0;
 
 	Node * delNode = topNode;
-	int returnData = topNode->data;
+	int ret = topNode->data;
 	topNode = topNode->next;
 	free(delNode);
-	return returnData;
+	return ret;
 }
 
 int Stack::top() {
