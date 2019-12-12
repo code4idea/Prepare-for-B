@@ -49,7 +49,7 @@ int Stack::pop() {
 }
 
 int Stack::top() {
-	return topNode->data;
+	return empty() ? 0 : topNode->data;
 }
 
 bool Stack::empty() {
