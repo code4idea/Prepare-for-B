@@ -151,6 +151,7 @@ public:
 				if (tmp->right != NULL)
 				{
 					tmp->parent->right = tmp->right;
+					tmp->right->parent = tmp->parent;
 					cur->data = tmp->data;
 					tmp = NULL;
 				}
@@ -170,6 +171,7 @@ public:
 				if (tmp->right != NULL)
 				{
 					tmp->parent->left = tmp->right;
+					tmp->right->parent = tmp->parent;
 					cur->data = tmp->data;
 					tmp = NULL;
 				}
@@ -215,8 +217,15 @@ int main(void)
 	b.insert(99);
 	b.levelOrder(b, b.getroot());
 
-	cout << " ajdkj " << b.remove(18) << endl;
+	cout << " 제거 " << b.remove(18) << endl;
 
 	b.levelOrder(b, b.getroot());
+
+	cout << " 제거 " << b.remove(22) << endl;
+	b.levelOrder(b, b.getroot());
+
+	cout << " 제거 " << b.remove(7) << endl;
+	b.levelOrder(b, b.getroot());
+
 	return 0;
 }
