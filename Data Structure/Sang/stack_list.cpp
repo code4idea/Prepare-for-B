@@ -63,9 +63,9 @@ public:
 	bool pop()
 	{
 		if (this->isempty()) return false;
-
+		Node<T>* tmp = top->next;
 		top->next = top->next->next;
-
+		delete tmp;
 		size--;
 	}
 
