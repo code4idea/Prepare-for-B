@@ -16,77 +16,89 @@
 #include <malloc.h>
 #define NULL 0
 
+using namespace std;
+
 typedef struct node {
 	struct node* prev;
 	struct node* next;
 	int data;
 }Node;
 
-typedef struct list {
+template <typename T>
+struct List {
 	Node* frontNode;
 	Node* backNode;
-	
-	void init();
-	void push_front(int value);
-	void push_back(int value);
-	int pop_front();
-	int pop_back();
-	Node* search_front(int value);
-	bool insert(int value);
-	bool remove(int value);
-	int front();
-	int back();
-	int empty();
-} List;
 
-void List::init() {
+	List();
+
+	void push_front(T value);
+	void push_back(T value);
+	T pop_front();
+	T pop_back();
+	Node* search_front(T value);
+	bool insert(Node* inputNode, T value);
+	bool remove(T value);
+	T front();
+	T back();
+	int empty();
+};
+
+template <typename T>
+List<T>::List() {
 	frontNode = NULL;
 	backNode = NULL;
 }
 
-void List::push_front(int value) {
+template <typename T>
+void List<T>::push_front(T value) {
 	Node* newNode = (Node*)malloc(sizeof(Node));
 	newNode->prev = NULL;
 	newNode->next = frontNode;
 	newNode->data = value;
 
+	frontNode->prev = newNode;
 	frontNode = newNode;
-	if (frontNode == NULL) backNode = newNode;
+	if (backNode == NULL) backNode = newNode;
 }
 
-void List::push_back(int value) {
+template <typename T>
+void List<T>::push_back(T value) {
 	Node* newNode = (Node*)malloc(sizeof(Node));
 	newNode->prev = backNode;
 	newNode->next = NULL;
 	newNode->data = value;
 
+	if (backNode != NULL) backNode->next = newNode;
 	backNode = newNode;
 	if (frontNode == NULL) frontNode = newNode;
 }
 
-int List::pop_front() {
+template <typename T>
+T List<T>::pop_front() {
 	if (empty()) return 0;
 
 	Node* delNode = frontNode;
-	int ret = frontNode->data;
+	T ret = frontNode->data;
 	frontNode = frontNode->next;
-	frontNode->prev = NULL;
+	if (frontNode != NULL) frontNode->prev = NULL;
 	free(delNode);
 	return ret;
 }
 
-int List::pop_back() {
+template <typename T>
+T List<T>::pop_back() {
 	if (empty()) return 0;
 
 	Node* delNode = backNode;
-	int ret = backNode->data;
+	T ret = backNode->data;
 	backNode = backNode->prev;
-	backNode->next = NULL;
+	if (backNode != NULL) backNode->next = NULL;
 	free(delNode);
 	return ret;
 }
 
-Node* List::search_front(int value) {
+template <typename T>
+Node* List<T>::search_front(T value) {
 	Node* ret = frontNode;
 	while (ret != NULL) {
 		if (ret->data == value) break;
@@ -95,19 +107,48 @@ Node* List::search_front(int value) {
 	return ret;
 }
 
-bool insert(int value) {
-	Node* searchNode = search_front(value);
+template <typename T>
+bool List<T>::insert(Node* inputNode, T value) {
+	if (inputNode == NULL) return false;
+	else {
+		Node* newNode = (Node*)malloc(sizeof(Node));
+		newNode->next = inputNode;
+		newNode->prev = inputNode->prev;
+		newNode->data = value;
 
+		inputNode->prev = newNode;
+
+		return true;
+	}
 }
 
-int List::front() {
+template <typename T>
+bool List<T>::remove(T value) {
+	Node* searchNode = search_front(value);
+	if (searchNode == NULL) return false;
+	else {
+		while (searchNode != NULL) {
+			searchNode->prev->next = searchNode->next;
+			searchNode->next->prev = searchNode->prev;
+
+			free(searchNode);
+
+			searchNode = search_front(value);
+		}
+	}
+}
+
+template <typename T>
+T List<T>::front() {
 	return frontNode == NULL ? 0 : frontNode->data;
 }
 
-int List::back() {
+template <typename T>
+T List<T>::back() {
 	return backNode == NULL ? 0 : backNode->data;
 }
 
-int List::empty() {
+template <typename T>
+int List<T>::empty() {
 	return (frontNode == backNode && frontNode == NULL) ? true : false;
 }
