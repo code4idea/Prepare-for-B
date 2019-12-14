@@ -51,6 +51,7 @@ T Stack<T>::pop() {
 	T ret = topNode->data;
 	topNode = topNode->next;
 	free(delNode);
+	delNode->next = NULL;
 	return ret;
 }
 
