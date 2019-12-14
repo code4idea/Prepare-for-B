@@ -8,9 +8,9 @@ int skip[256];
 
 int main(void)
 {
-	static char text[] = "This is a pen. That is a pencil.";
+	static char text[] = "Using the Hecomdmentsllo World guide, you'll stacommentsrt a braHellonch, write comments, and open a pHellcommentsoull request.";
 	char *p;
-	char key[] = "pen";
+	char key[] = "comments";
 
 	table(key);
 	p = search(text, key);
@@ -43,19 +43,17 @@ char *search(char *text, char *key)
 
 	p = text + n - 1;
 	while (p < text + m) {
-		if (*p == key[n - 1]) {
 			bool check = true;
-			for (int i = n - 2; i >= 0; i--)
+			for (int i = n - 1; i >= 0; i--)
 			{
 				if (*(p - (n-i-1)) != key[i])
 				{
 					check = false;
-					p = p + i;
 					break;
 				}
 			}
 			if (check) return p - n + 1;
-		}
+
 		p = p + skip[*p];
 	}
 
