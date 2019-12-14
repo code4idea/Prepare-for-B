@@ -3,7 +3,7 @@
 ** ADT
 ** - push
 ** - pop
-** - peak
+** - top
 ** - empty
 */
 
