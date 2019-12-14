@@ -11,30 +11,35 @@
 #include <malloc.h>
 #define NULL 0
 
-typedef struct node {
-	struct node* next;
-	int data;
-}Node;
+template <typename T>
+struct Node {
+	Node<T>* next;
+	T data;
+};
 
-typedef struct queue {
-	Node* frontNode;
-	Node* backNode;
-	
-	void init();
-	void push(int value);
-	int pop();
-	int front();
-	int back();
-	int empty();
-} Queue;
+template <typename T>
+struct Queue {
+	Node<T>* frontNode;
+	Node<T>* backNode;
 
-void Queue::init() {
+	Queue();
+
+	void push(T value);
+	T pop();
+	T front();
+	T back();
+	bool empty();
+};
+
+template <typename T>
+Queue<T>::Queue() {
 	frontNode = NULL;
 	backNode = NULL;
 }
 
-void Queue::push(int value) {
-	Node* newNode = (Node*)malloc(sizeof(Node));
+template <typename T>
+void Queue<T>::push(T value) {
+	Node<T>* newNode = (Node<T>*)malloc(sizeof(Node<T>));
 	newNode->next = backNode;
 	newNode->data = value;
 
@@ -42,24 +47,28 @@ void Queue::push(int value) {
 	if (frontNode == NULL) frontNode = newNode;
 }
 
-int Queue::pop() {
+template <typename T>
+T Queue<T>::pop() {
 	if (empty()) return 0;
 
-	Node* delNode = frontNode;
-	int ret = frontNode->data;
+	Node<T>* delNode = frontNode;
+	T ret = frontNode->data;
 	frontNode = frontNode->next;
 	free(delNode);
 	return ret;
 }
 
-int Queue::front() {
+template <typename T>
+T Queue<T>::front() {
 	return frontNode == NULL ? 0 : frontNode->data;
 }
 
-int Queue::back() {
+template <typename T>
+T Queue<T>::back() {
 	return backNode == NULL ? 0 : backNode->data;
 }
 
-int Queue::empty() {
+template <typename T>
+bool Queue<T>::empty() {
 	return (frontNode == backNode && frontNode == NULL) ? true : false;
 }
