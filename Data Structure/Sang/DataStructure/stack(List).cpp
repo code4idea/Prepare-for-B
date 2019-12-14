@@ -56,7 +56,7 @@ public:
 		top = top->next;
 
 		delete delNode;
-
+		delNode = 
 		this->size--;
 	}
 
