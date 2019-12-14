@@ -9,40 +9,48 @@
 
 #define MAX_STACK 50
 
-typedef struct stack {
+template <typename T>
+struct Stack {
 	int topIndex;
-	char data[MAX_STACK];
+	T data[MAX_STACK];
 
-	void init();
+	Stack();
+
 	bool push(char value);
-	char pop();
-	char top();
+	T pop();
+	T top();
 	bool empty();
 
 	bool full();
-} Stack;
+};
 
-void Stack::init() {
+template<typename T>
+Stack<T>::Stack() {
 	topIndex = -1;
 }
 
-bool Stack::push(char value) {
+template<typename T>
+bool Stack<T>::push(char value) {
 	if (!full()) data[++topIndex] = value;
 	return !full();
 }
 
-char Stack::pop() {
+template<typename T>
+T Stack<T>::pop() {
 	return empty() ? 0 : data[topIndex--];
 }
 
-char Stack::top() {
+template<typename T>
+T Stack<T>::top() {
 	return data[topIndex];
 }
 
-bool Stack::empty() {
+template<typename T>
+bool Stack<T>::empty() {
 	return topIndex == -1 ? true : false;
 }
 
-bool Stack::full() {
-	return topIndex+1 == MAX_STACK ? true : false;
+template<typename T>
+bool Stack<T>::full() {
+	return topIndex + 1 == MAX_STACK ? true : false;
 }
