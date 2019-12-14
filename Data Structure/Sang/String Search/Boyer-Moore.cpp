@@ -54,7 +54,7 @@ char *search(char *text, char *key)
 					break;
 				}
 			}
-			if (check) return p + n - 1;
+			if (check) return p - n + 1;
 		}
 		p = p + skip[*p];
 	}
