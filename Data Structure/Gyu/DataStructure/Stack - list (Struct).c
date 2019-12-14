@@ -11,64 +11,55 @@
 #define NULL 0
 
 template <typename T>
-struct Node {
+struct Node
+{
 	Node<T>* next;
 	T data;
 };
 
 template <typename T>
-struct Queue {
-	Node<T>* frontNode;
-	Node<T>* backNode;
+struct Stack
+{
+	Node<T>* topNode;
 
-	Queue();
+	Stack();
 
 	void push(T value);
 	T pop();
-	T front();
-	T back();
-
+	T top();
 	bool empty();
 };
 
 template <typename T>
-Queue<T>::Queue() {
-	frontNode = NULL;
-	backNode = NULL;
+Stack<T>::Stack() {
+	topNode = NULL;
 }
 
 template <typename T>
-void Queue<T>::push(T value) {
-	Node<T>* newNode = (Node<T>*)malloc(sizeof(Node<T>));
-	newNode->next = backNode;
+void Stack<T>::push(T value) {
+	Node<T>* newNode = (Node<T> *)malloc(sizeof(Node<T>));
+	newNode->next = topNode;
 	newNode->data = value;
-
-	backNode = newNode;
-	if (frontNode == NULL) frontNode = newNode;
-}
+	topNode = newNode;
+};
 
 template <typename T>
-T Queue<T>::pop() {
+T Stack<T>::pop() {
 	if (empty()) return 0;
 
-	Node<T>* delNode = frontNode;
-	T ret = frontNode->data;
-	frontNode = frontNode->next;
+	Node<T> * delNode = topNode;
+	T ret = topNode->data;
+	topNode = topNode->next;
 	free(delNode);
 	return ret;
 }
 
 template <typename T>
-T Queue<T>::front() {
-	return frontNode == NULL ? 0 : frontNode->data;
+T Stack<T>::top() {
+	return empty() ? 0 : topNode->data;
 }
 
 template <typename T>
-T Queue<T>::back() {
-	return backNode == NULL ? 0 : backNode->data;
-}
-
-template <typename T>
-bool Queue<T>::empty() {
-	return (frontNode == backNode && frontNode == NULL) ? true : false;
+bool Stack<T>::empty() {
+	return topNode == NULL ? true : false;
 }
