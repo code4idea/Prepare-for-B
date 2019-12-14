@@ -10,47 +10,56 @@
 
 #define MAX_QUEUE 50
 
-typedef struct queue {
+template <typename T>
+struct Queue {
 	int frontIndex;
 	int backIndex;
-	int data[MAX_QUEUE];
-	
-	void init();
-	bool push(int value);
-	int pop();
-	int front();
-	int back();
-	int empty();
+	T data[MAX_QUEUE];
 
-	int full();
-} Queue;
+	Queue();
 
-void Queue::init() {
+	bool push(T value);
+	T pop();
+	T front();
+	T back();
+	bool empty();
+
+	bool full();
+};
+
+template <typename T>
+Queue<T>::Queue() {
 	frontIndex = 0;
 	backIndex = 0;
 }
 
-bool Queue::push(int value) {
-	if (!full()) data[++backIndex] = value;
+template <typename T>
+bool Queue<T>::push(T value) {
+	if (!full()) data[backIndex++] = value;
 	return !full() ? true : false;
 }
 
-int Queue::pop() {
+template <typename T>
+T Queue<T>::pop() {
 	return empty() ? 0 : data[frontIndex++];
 }
 
-int Queue::front() {
+template <typename T>
+T Queue<T>::front() {
 	return data[frontIndex];
 }
 
-int Queue::back() {
+template <typename T>
+T Queue<T>::back() {
 	return data[backIndex];
 }
 
-int Queue::empty() {
+template <typename T>
+bool Queue<T>::empty() {
 	return frontIndex == backIndex ? true : false;
 }
 
-int Queue::full() {
+template <typename T>
+bool Queue<T>::full() {
 	return backIndex + 1 == MAX_QUEUE ? true : false;
 }
