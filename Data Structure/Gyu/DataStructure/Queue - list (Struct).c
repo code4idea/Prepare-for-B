@@ -33,18 +33,18 @@ struct Queue {
 
 template <typename T>
 Queue<T>::Queue() {
-	frontNode = NULL;
-	backNode = NULL;
+	frontNode = backNode = NULL;
 }
 
 template <typename T>
 void Queue<T>::push(T value) {
 	Node<T>* newNode = (Node<T>*)malloc(sizeof(Node<T>));
-	newNode->next = backNode;
+	newNode->next = NULL;
 	newNode->data = value;
 
+	if (empty()) frontNode = newNode;
+	else backNode->next = newNode;
 	backNode = newNode;
-	if (frontNode == NULL) frontNode = newNode;
 }
 
 template <typename T>
@@ -55,6 +55,7 @@ T Queue<T>::pop() {
 	T ret = frontNode->data;
 	frontNode = frontNode->next;
 	free(delNode);
+	delNode->next = NULL;
 	return ret;
 }
 
