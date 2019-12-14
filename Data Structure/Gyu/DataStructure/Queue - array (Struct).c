@@ -8,7 +8,7 @@
 ** - empty
 */
 
-#define MAX_QUEUE 50
+#define MAX_QUEUE 10
 
 template <typename T>
 struct Queue {
@@ -61,5 +61,5 @@ bool Queue<T>::empty() {
 
 template <typename T>
 bool Queue<T>::full() {
-	return backIndex + 1 == MAX_QUEUE ? true : false;
+	return backIndex == MAX_QUEUE ? true : false;
 }
