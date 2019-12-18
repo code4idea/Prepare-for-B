@@ -24,7 +24,7 @@ public:
 };
 
 template <typename T>
-class DLinkedList
+class _DLinkedList
 {
 private:
 	int size;
@@ -32,7 +32,7 @@ private:
 	Node<T>* tail;
 
 public:
-	DLinkedList()
+	_DLinkedList()
 	{
 		size = 0;
 		head = NULL;
@@ -41,10 +41,10 @@ public:
 
 	void _push_back(T _data)
 	{
-		Node<T> *newNode = Node<T>();
+		Node<T> *newNode = new Node<T>();
+		newNode->data = _data;
 		if(head == NULL)
 		{
-			newNode->data = _data;
 			head = newNode;
 		}
 		else
@@ -64,11 +64,14 @@ public:
 			return -1;
 		}
 
-		Node<T> *delNode;
-		delNode = tail;
+		Node<T> *delNode = tail;
 		T res = delNode->data;
-		tail->prev->next = delNode;
-		tail = delNode->prev;
+
+		if(size!=1)
+		{
+			tail->prev->next = delNode;
+			tail = delNode->prev;
+		}
 		
 		delete delNode;
 		delNode = NULL;
@@ -78,10 +81,10 @@ public:
 
 	void _push_front(T _data)
 	{
-		Node<T> *newNode = Node<T>();
+		Node<T> *newNode = new Node<T>();
+		newNode->data = _data;
 		if(head == NULL)
 		{
-			newNode->data = _data;
 			tail = newNode;
 		}
 		else
@@ -101,11 +104,14 @@ public:
 			return -1;
 		}
 
-		Node<T> *delNode;
-		delNode = head;
+		Node<T> *delNode = head;
 		T res = delNode->data;
-		head->next->prev = delNode;
-		head = delNode->next;
+
+		if(size != 1)
+		{
+			head->next->prev = delNode;
+			head = delNode->next;
+		}
 		
 		delete delNode;
 		delNode = NULL;
@@ -115,7 +121,7 @@ public:
 
 	void _push(int index, T _data)
 	{
-		Node<T> *newNode = Node<T>();
+		Node<T> *newNode = new Node<T>();
 		if(index == 0)
 		{
 			_push_front(_data);
@@ -129,7 +135,7 @@ public:
 			cout <<"PUSH INDEX NG"<<endl;
 			return;
 		}
-		
+		newNode->data = _data;
 		Node<T> *tempNode = head;
 		for(int i=0;i<index;i++)
 		{
@@ -143,7 +149,7 @@ public:
 		size++;
 	}
 
-	void _pop(int index)
+	T _pop(int index)
 	{
 		if(_empty()) 
 		{
@@ -162,7 +168,7 @@ public:
 		else if(index > size)
 		{
 			cout <<"POP INDEX NG"<<endl;
-			return;
+			return -1;
 		}
 
 		Node<T> *delNode = head;
@@ -177,7 +183,7 @@ public:
 		
 		delete delNode;
 		delNode = NULL;
-
+		size--;
 		return res;
 	}
 
@@ -187,11 +193,21 @@ public:
 	int _size()
 	{ return this->size;}
 
+	void print()
+	{
+		Node<int>* temp = head;
+		for(int i =0;i<size;i++)
+		{
+			cout << temp->data << " ";
+			temp= temp->next;
+		}
+	}
+
 };
 
 int main(void)
 {
-	DLinkedList<int> DLL = DLinkedList<int>();
+	_DLinkedList<int> DLL = _DLinkedList<int>();
 
 	for(int i=6;i<=10;i++)
 	DLL._push_back(i);
@@ -199,8 +215,11 @@ int main(void)
 	for(int i=5;i>=0;i--)
 	DLL._push_front(i);
 
-	for(int i=1;i<=10;i++)
-	cout << DLL._pop_front() << " ";
+	//for(int i=0;i<11;i++)
+	//cout << DLL._pop_front() << " ";
+
+	DLL._pop(3);
+	DLL.print();
 
 	return 0;
 }
