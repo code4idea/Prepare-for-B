@@ -1,77 +1,74 @@
 #include <cstdio>
 #include <cstring>
 
-#define ALPHABETS 26
+class Trie
+{
+private:
+	Trie* child[30];
+	bool finish;
 
-// Convert char to array index
-// All are base on capital
-int char_to_index(char c) {
-	return c - 'a';
-}
-
-struct Trie {
-
-	bool is_terminal; // this represents end of string
-	Trie * children[ALPHABETS];
-
-	// Constructor
-	Trie() : is_terminal(false) {
-		memset(children, 0, sizeof(children));
+public:
+	Trie()
+	{
+		for(int i=0;i<30;i++) child[i] = NULL;
+		finish = false;
 	}
 
-	// Delete all children
-	~Trie() {
-		for (int i = 0; i < ALPHABETS; ++i) {
-			if (children[i])
-				delete children[i];
+	void insert(char* key)
+	{
+		if(*key == '\0')
+		{
+			this->finish = true;
+			return;
 		}
-	}
-
-	void insert(const char * key) {
-		if (*key == '\0') {
-			is_terminal = true;
-		}
-		else {
-			int index = char_to_index(*key);
-
-			if (children[index] == 0)
-				children[index] = new Trie();
-			children[index]->insert(key + 1);
+		else
+		{
+			int index = *key - 'a';
+			if(child[index] == NULL)
+				child[index] = new Trie();
+			child[index]->insert(key+1);
 		}
 	}
 
-	Trie* find(const char * key) {
-		if (*key == 0) {
-			return this;
-		}
-
-		int index = char_to_index(*key);
-		if (children[index] == 0) {
-			return NULL;
-		}
-
-		return children[index]->find(key + 1);
-	}
-
-	bool string_exist(const char * key) {
-		if (*key == 0 && is_terminal) {
+	bool find(char* key)
+	{
+		if(*key == '\0')
+		{
 			return true;
 		}
-
-		int index = char_to_index(*key);
-		if (children[index] == 0) {
-			return false;
+		else
+		{
+			int index = *key - 'a';
+			if(child[index] == NULL)
+				return false;
+			child[index]->find(key+1);
 		}
-		return children[index]->string_exist(key + 1);
 	}
 
+	bool string_exist(char* key)
+	{
+		if(*key == '\0')
+		{
+			if(finish == true)
+			{
+				return true;
+			}
+			return false;
+		}
+
+		int index = *key - 'a';
+		if(child[index] == NULL)
+			return false;
+		return child[index]->string_exist(key+1);
+	
+	}
 };
 
 int main() {
 
 	Trie * root = new Trie();
 
-	const char * words[5] = { "be", "bee", "can", "cat", "cd" };
+	char * words[5] = { "be", "bee", "can", "cat", "cd" };
 
 	for (int i = 0; i < 5; ++i) {
 		printf("insert : %s\n", words[i]);
@@ -93,7 +90,7 @@ int main() {
 	printf("%s : bee\n", root->string_exist("bee") != 0 ? "String Exist" : "String Not Exist");
 	printf("%s : candy\n", root->string_exist("candy") != 0 ? "String Exist" : "String Not Exist");
 	printf("%s : cd\n", root->string_exist("cd") != 0 ? "String Exist" : "String Not Exist");
-
+	
 	delete root;
 
 	return 0;
